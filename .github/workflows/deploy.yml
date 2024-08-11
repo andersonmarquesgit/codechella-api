@@ -17,9 +17,7 @@ jobs:
         run: docker build --platform linux/amd64 -t andersonmarquesdocker/codechella:1.0 .
 
       - name: Log into Docker Hub
-        env:
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: echo $DOCKERHUB_TOKEN | docker login -u andersonmarquesdocker --password-stdin
+        run: docker login -u andersonmarquesdocker -p "${{ secrets.DOCKERHUB_TOKEN }}"
 
       - name: Push image to Docker Hub
         run: docker push andersonmarquesdocker/codechella:1.0
