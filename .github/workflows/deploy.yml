@@ -1,4 +1,4 @@
-name: CI/CD with Docker and GitHub Actions
+name: Test Secrets
 
 on:
   push:
@@ -6,45 +6,14 @@ on:
       - main
 
 jobs:
-  build:
+  test-secrets:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker image
-        run: docker build --platform linux/amd64 -t andersonmarquesdocker/codechella:1.0 .
-
-      - name: Debug Secret
-        run: echo "${{ secrets.TEST_SECRET }}"
+      - name: Debug Secret Length
+        run: echo "${#DOCKERHUB_TOKEN}"
         env:
           DOCKERHUB_TOKEN: ${{ secrets.TEST_SECRET }}
-
-      - name: Log into Docker Hub
-        run: docker login -u andersonmarquesdocker -p "${{ secrets.DOCKERHUB_TOKEN }}"
-
-      - name: Push image to Docker Hub
-        run: docker push andersonmarquesdocker/codechella:1.0
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Copy Docker Compose file to EC2
-        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa docker-compose.yml ec2-user@IP_DO_SERVIDOR_EC2:/home/ec2-user/docker-compose.yml
-
-      - name: SSH into EC2 instance and update Docker Compose
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@IP_DO_SERVIDOR_EC2 << 'EOF'
-            cd /home/ec2-user
-            docker-compose pull
-            docker-compose up -d
-            docker system prune -f
-          EOF
