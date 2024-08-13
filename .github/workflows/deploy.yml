@@ -17,9 +17,9 @@ jobs:
         run: docker build --platform linux/amd64 -t andersonmarquesdocker/codechella:1.0 .
 
       - name: Debug Secret
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}"
+        run: echo "${{ secrets.TEST_SECRET }}"
         env:
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKERHUB_TOKEN: ${{ secrets.TEST_SECRET }}
 
       - name: Log into Docker Hub
         run: docker login -u andersonmarquesdocker -p "${{ secrets.DOCKERHUB_TOKEN }}"
