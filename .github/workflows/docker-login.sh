@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+docker login -u "$DOCKER_USERNAME" -p "$DOCKERHUB_TOKEN"
