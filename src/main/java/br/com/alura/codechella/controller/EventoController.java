@@ -27,12 +27,6 @@ public class EventoController {
         return ResponseEntity.ok(proximosEventos);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<DadosEvento> detalhar(@PathVariable Long id) {
-        var evento = service.detalhar(id);
-        return ResponseEntity.ok(evento);
-    }
-
     @PostMapping
     @Transactional
     public ResponseEntity<DadosEvento> cadastrar(@RequestBody @Valid DadosCadastroEvento dadosCadastro, UriComponentsBuilder uriBuilder) {
