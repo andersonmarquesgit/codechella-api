@@ -17,7 +17,7 @@ jobs:
         run: docker build --platform linux/amd64 -t andersonmarquesdocker/codechella:1.0 .
 
       - name: Log into Docker Hub
-        run: sh ./docker-login.sh
+        run: sh .github/workflows/docker-login.sh
         env:
           DOCKER_USERNAME: andersonmarquesdocker
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
