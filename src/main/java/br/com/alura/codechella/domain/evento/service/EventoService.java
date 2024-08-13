@@ -45,6 +45,12 @@ public class EventoService {
         return new DadosEvento(evento);
     }
 
+    @CacheEvict(value = "proximosEventos", allEntries = true)
+    public void limparCacheProximosEventos() {
+        // Este método limpa o cache de proximosEventos
+        System.out.println("Cache de proximosEventos limpo");
+    }
+
     public DadosEvento detalhar(Long id) {
         var evento = eventoRepository.findById(id).get();
         return new DadosEvento(evento);
