@@ -16,9 +16,13 @@ jobs:
       - name: Build Docker image
         run: docker build --platform linux/amd64 -t andersonmarquesdocker/codechella:1.0 .
 
+      - name: Debug Secret
+        run: echo "Token: ${{ secrets.DOCKERHUB_TOKEN }}"
+        env:
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Log into Docker Hub
         run: docker login -u andersonmarquesdocker -p "${{ secrets.DOCKERHUB_TOKEN }}"
-
 
       - name: Push image to Docker Hub
         run: docker push andersonmarquesdocker/codechella:1.0
